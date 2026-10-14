@@ -16,6 +16,9 @@ repositories {
 }
 
 dependencies {
+    // MQTT client
+    implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
+
     // Use JUnit Jupiter for testing.
     testImplementation libs.junit.jupiter
 

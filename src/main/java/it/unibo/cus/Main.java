@@ -3,12 +3,22 @@
  */
 package it.unibo.cus;
 
-public class Main {
-    public String getGreeting() {
-        return "Hello World!";
-    }
+import java.util.List;
 
+import it.unibo.cus.model.classes.Schedular;
+
+public class Main {
     public static void main(String[] args) {
-        System.out.println(new Main().getGreeting());
+        // init List of tasks
+        @SuppressWarnings("null")
+        final List<it.unibo.cus.model.api.Task> tasks = List.of(
+            new it.unibo.cus.model.classes.task.CheckAndReconnectTask(),
+            new it.unibo.cus.model.classes.task.InputOutput()
+        );
+        // init Scheduler
+        final var scheduler = new Schedular(tasks);
+        while (true) {
+            scheduler.schedular();
+        }
     }
 }

@@ -2,6 +2,7 @@ package it.unibo.cus.model.classes;
 
 import it.unibo.cus.model.enums.ProblemsState;
 import it.unibo.cus.model.enums.WorkMode;
+import it.unibo.cus.service.MqttService;
 
 /**
  * Stores the global state of the system.
@@ -20,4 +21,6 @@ public final class State {
     public static int valveOpenPercentage = 0;
 
     public static int waterLevel = 0;
+
+    public static MqttService serviceMQTT;
 }

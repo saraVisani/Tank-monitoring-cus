@@ -17,4 +17,9 @@ public interface HelperInputOutput {
      * The method should be designed to be efficient and should not block the main execution thread.
      */
     void send();
+    /**
+     * This method is responsible for determining whether the task should be executed or not.
+     * @return true if the task should be executed, false otherwise.
+     */
+    boolean guard();
 }

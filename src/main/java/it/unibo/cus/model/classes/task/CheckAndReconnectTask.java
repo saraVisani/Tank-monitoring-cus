@@ -1,9 +1,11 @@
 
-package it.unibo.cus.model.classes;
+package it.unibo.cus.model.classes.task;
 
 import it.unibo.cus.model.api.Task;
 import it.unibo.cus.model.api.HelperCheckConnection;
-import it.unibo.cus.model.classes.helperConnections.*;
+import it.unibo.cus.model.classes.State;
+import it.unibo.cus.model.classes.Timer;
+import it.unibo.cus.model.classes.task.helperConnections.*;
 import it.unibo.cus.model.enums.ProblemsState;
 
 import java.util.List;
@@ -14,11 +16,13 @@ import java.util.List;
  */
 public class CheckAndReconnectTask implements Task {
 
+    @SuppressWarnings("null")
     private final List<HelperCheckConnection> helpers = List.of(
         new CheckAndReconnectTMS()
         // new CheckAndReconnectDBS()
     );
 
+    @SuppressWarnings("null")
     private final List<Timer> timers = helpers.stream()
         .map(helper -> new Timer(
             helper.getTimerName(),

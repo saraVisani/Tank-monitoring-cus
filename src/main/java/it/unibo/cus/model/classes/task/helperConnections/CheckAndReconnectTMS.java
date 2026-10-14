@@ -1,21 +1,28 @@
-package it.unibo.cus.model.classes.helperConnections;
+package it.unibo.cus.model.classes.task.helperConnections;
 
+import it.unibo.cus.service.MqttService;
 import it.unibo.cus.model.api.HelperCheckConnection;
 import it.unibo.cus.model.classes.State;
 import it.unibo.cus.model.enums.ProblemsState;
 
 public class CheckAndReconnectTMS implements HelperCheckConnection {
 
+    private final MqttService mqttService;
+
+    public CheckAndReconnectTMS() {
+        this.mqttService = new MqttService();
+        State.serviceMQTT = this.mqttService;
+    }
+
     @Override
     public boolean checkConnection() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'checkConnection'");
+        return mqttService.isConnected();
     }
 
     @Override
     public boolean tryReconnect() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'tryReconnect'");
+        // The MQTT client manages reconnection automatically.
+        return mqttService.isConnected();
     }
 
     @Override

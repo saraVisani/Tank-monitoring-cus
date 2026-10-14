@@ -3,12 +3,12 @@
  */
 package it.unibo.cus;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+//import org.junit.jupiter.api.Test;
+//import static org.junit.jupiter.api.Assertions.*;
 
 class MainTest {
-    @Test void mainHasAGreeting() {
+    /*@Test void mainHasAGreeting() {
         Main classUnderTest = new Main();
         assertNotNull(classUnderTest.getGreeting(), "main should have a greeting");
-    }
+    }*/
 }
