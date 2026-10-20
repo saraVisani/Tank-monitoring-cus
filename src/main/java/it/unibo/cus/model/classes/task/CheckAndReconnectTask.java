@@ -18,8 +18,8 @@ public class CheckAndReconnectTask implements Task {
 
     @SuppressWarnings("null")
     private final List<HelperCheckConnection> helpers = List.of(
-        new CheckAndReconnectTMS()
-        // new CheckAndReconnectDBS()
+        new CheckAndReconnectTMS(),
+        new CheckAndReconnectDBS()
     );
 
     @SuppressWarnings("null")
