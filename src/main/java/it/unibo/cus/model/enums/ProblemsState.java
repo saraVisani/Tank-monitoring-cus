@@ -19,4 +19,20 @@ public enum ProblemsState {
             case UNCON_NOT_AVAIL -> "Unconnected and not available";
         };
     }
+
+    static public ProblemsState toEnum(String msg) {
+        if(msg.equalsIgnoreCase(ProblemsState.OK.toString())){
+            return ProblemsState.OK;
+        }
+        if(msg.equalsIgnoreCase(ProblemsState.UNCONNECTED.toString())){
+            return ProblemsState.UNCONNECTED;
+        }
+        if(msg.equalsIgnoreCase(ProblemsState.NOT_AVAILABLE.name())){
+            return ProblemsState.NOT_AVAILABLE;
+        }
+        if(msg.equalsIgnoreCase(ProblemsState.UNCON_NOT_AVAIL.name())){
+            return ProblemsState.UNCON_NOT_AVAIL;
+        }
+        return null;
+    }
 }

@@ -16,6 +16,8 @@ repositories {
 }
 
 dependencies {
+    // Serial
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     // MQTT client
     implementation 'org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5'
 

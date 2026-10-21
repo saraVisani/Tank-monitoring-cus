@@ -20,7 +20,7 @@ public class Schedular {
 
         this.timer = new Timer(
             "Schedular",
-            100,
+            50,
             () -> this.tick = true
         );
 

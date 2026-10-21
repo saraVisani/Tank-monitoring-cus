@@ -5,5 +5,9 @@ package it.unibo.cus.model.api;
  */
 public interface Task {
     void tick();
+    /**
+     * When the task need to tick
+     * @return
+     */
     boolean guard();
 }
