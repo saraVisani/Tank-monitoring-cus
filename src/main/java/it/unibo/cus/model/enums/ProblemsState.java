@@ -35,4 +35,13 @@ public enum ProblemsState {
         }
         return null;
     }
+
+    public String toStringForCommunication(){
+        return switch (this) {
+            case OK -> this.toString();
+            case UNCONNECTED -> this.toString();
+            case NOT_AVAILABLE -> "Not_available";
+            case UNCON_NOT_AVAIL -> "Uncon_not_avail";
+        };
+    }
 }

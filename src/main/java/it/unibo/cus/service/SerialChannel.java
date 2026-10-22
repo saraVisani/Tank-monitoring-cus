@@ -153,6 +153,8 @@ public class SerialChannel {
             return;
         }
 
+        System.out.println(msg);
+
         serialPort.writeString(msg + "\n");
     }
 

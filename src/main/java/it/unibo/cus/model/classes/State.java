@@ -1,5 +1,6 @@
 package it.unibo.cus.model.classes;
 
+import it.unibo.cus.model.classes.task.DecideOpening;
 import it.unibo.cus.model.classes.task.helperIO.IOhelperWCS;
 import it.unibo.cus.model.enums.ProblemsState;
 import it.unibo.cus.model.enums.WorkMode;
@@ -18,6 +19,22 @@ public final class State {
 
     public static ProblemsState problemsState =
             ProblemsState.UNCON_NOT_AVAIL;
+
+    /**
+     * WCS workMode change.
+     *
+     * <p>Represents the mode changes called by WCS while waiting confirmation.
+     *
+     * <p><b>Modified by:</b>
+     * <ul>
+     *   <li>{@link IOhelperWCS}</li>
+     * </ul>
+     *
+     * @see #htmlAnswerState
+     * @see #sendConfirmHtml
+     * @see #dbsInactive
+     */
+    public static WorkMode workModeWCS = WorkMode.AUTOMATIC;
 
     /**
      * Desired valve opening percentage.
@@ -78,8 +95,9 @@ public final class State {
      *
      * <p>Modified by {@code IOhelperDBS}.
      *
+     * @see #htmlAnswerState
      * @see #sendConfirmHtml
-     * @see #htmlAnswer
+     * @see #htmlAnswerValve
      */
     public static boolean dbsInactive = false;
 
@@ -92,9 +110,9 @@ public final class State {
      * <p><b>Protocol:</b>
      * <ol>
      *   <li>WCS sets this flag to {@code true} to request confirmation.</li>
-     *   <li>DBS processes the request and stores the result in {@link #htmlAnswer}.</li>
+     *   <li>DBS processes the request and stores the result in {@link #htmlAnswerValve} and {@link #htmlAnswerState}.</li>
      *   <li>DBS sets this flag to {@code false} to signal that the response is ready.</li>
-     *   <li>WCS detects the flag reset and reads {@link #htmlAnswer}.</li>
+     *   <li>WCS detects the flag reset and reads {@link #htmlAnswerValve} and {@link #htmlAnswerState}.</li>
      * </ol>
      *
      * <p><b>Modified by:</b>
@@ -103,7 +121,8 @@ public final class State {
      *   <li>{@link IOhelperDBS} in manual mode, to signal that the response is ready.</li>
      * </ul>
      *
-     * @see #htmlAnswer
+     * @see #htmlAnswerValve
+     * @see #htmlAnswerState
      * @see #dbsInactive
      */
     public static boolean sendConfirmHtml = false;
@@ -129,11 +148,40 @@ public final class State {
      *       from the HTML interface.</li>
      * </ul>
      *
+     * @see #htmlAnswerState
      * @see #sendConfirmHtml
      * @see #valveOpenPercentage
      * @see #dbsInactive
      */
-    public static boolean htmlAnswer = false;
+    public static boolean htmlAnswerValve = false;
+
+    /**
+     * HTML confirmation result.
+     *
+     * <p>Indicates whether the HTML interface accepts the work state change
+     * requested by WCS.
+     *
+     * <p><b>Possible values:</b>
+     * <ul>
+     *   <li>{@code true}: the requested change is accepted.</li>
+     *   <li>{@code false}: the requested change is rejected.</li>
+     * </ul>
+     *
+     * <p>The result is read by WCS after {@link #sendConfirmHtml} becomes
+     * {@code false}, indicating that DBS has completed the confirmation process.
+     *
+     * <p><b>Modified by:</b>
+     * <ul>
+     *   <li>{@link IOhelperDBS} in manual mode, after processing the response
+     *       from the HTML interface.</li>
+     * </ul>
+     *
+     * @see #htmlAnswerState
+     * @see #sendConfirmHtml
+     * @see #valveOpenPercentage
+     * @see #dbsInactive
+     */
+    public static boolean htmlAnswerState = false;
 
     public static float waterLevel = 0;
 
