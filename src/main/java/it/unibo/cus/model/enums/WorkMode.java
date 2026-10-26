@@ -14,4 +14,14 @@ public enum WorkMode {
             case AUTOMATIC -> "Automatic";
         };
     }
+
+    static public WorkMode toEnum(String msg) {
+        if(msg.equalsIgnoreCase(WorkMode.AUTOMATIC.toString())){
+            return WorkMode.AUTOMATIC;
+        }
+        if(msg.equalsIgnoreCase(WorkMode.MANUAL.toString())){
+            return WorkMode.MANUAL;
+        }
+        return null;
+    }
 }

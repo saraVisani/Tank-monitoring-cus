@@ -5,15 +5,18 @@ package it.unibo.cus;
 
 import java.util.List;
 
+import it.unibo.cus.model.api.Task;
 import it.unibo.cus.model.classes.Schedular;
+import it.unibo.cus.model.classes.task.*;
 
 public class Main {
     public static void main(String[] args) {
         // init List of tasks
         @SuppressWarnings("null")
-        final List<it.unibo.cus.model.api.Task> tasks = List.of(
-            new it.unibo.cus.model.classes.task.CheckAndReconnectTask(),
-            new it.unibo.cus.model.classes.task.InputOutput()
+        final List<Task> tasks = List.of(
+            new CheckAndReconnectTask(),
+            new InputOutput(),
+            new DecideOpening()
         );
         // init Scheduler
         final var scheduler = new Schedular(tasks);

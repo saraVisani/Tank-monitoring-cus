@@ -12,6 +12,14 @@ public class CheckAndReconnectTMS implements HelperCheckConnection {
     public CheckAndReconnectTMS() {
         this.mqttService = new MqttService();
         State.serviceMQTT = this.mqttService;
+
+        try {
+            this.mqttService.connect();
+        } catch (org.eclipse.paho.client.mqttv3.MqttException e) {
+            System.err.println(
+                "Initial MQTT connection failed: " + e.getMessage()
+            );
+        }
     }
 
     @Override

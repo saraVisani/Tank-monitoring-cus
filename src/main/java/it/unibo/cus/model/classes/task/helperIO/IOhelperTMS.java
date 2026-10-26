@@ -34,7 +34,7 @@ public class IOhelperTMS implements HelperInputOutput {
         lastProcessedPayload = payload;
 
         try {
-            int level = Integer.parseInt(payload);
+            float level = Float.parseFloat(payload);
 
             if (level < 0) {
                 System.err.println(
@@ -44,6 +44,10 @@ public class IOhelperTMS implements HelperInputOutput {
             }
 
             State.waterLevel = level;
+
+            System.out.println(
+                "valid water level payload: " + payload
+            );
 
         } catch (NumberFormatException e) {
             System.err.println(
