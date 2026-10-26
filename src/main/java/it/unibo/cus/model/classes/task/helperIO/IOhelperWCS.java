@@ -233,65 +233,91 @@ public class IOhelperWCS implements HelperInputOutput{
      *          <li>WorkMode-valvePositionCurrently-valveFinalPosition</li>
      *      </ul></li>
      * </ul>
-     * The final valve position is optional in handshake messages.
+     * The final valve position and WorkMode is optional in handshake messages.
      *
      * @param msg message received from WCS
      */
-    private void parseMessage(String msg){
-        msg = msg.trim();
-        List<String> parts = splitByDash(msg);
-        if(parts.isEmpty()){
+    private void parseMessage(String msg) {
+        if (msg == null || msg.isBlank()) {
             return;
         }
-        WorkMode job = WorkMode.toEnum(parts.get(0));
 
-        int posNow, finalPos;
+        List<String> parts = splitByDash(msg.trim());
 
-        if(parts.size() >= 2){
-            try {
-                posNow = Integer.parseInt(parts.get(1));
-            } catch (Exception e) {
-                posNow = -1;
+        if (parts.isEmpty()) {
+            return;
+        }
+
+        WorkMode receivedMode = WorkMode.toEnum(parts.get(0));
+
+        if (receivedMode != null) {
+            // Format: WorkMode-currentPosition
+            // Format: WorkMode-currentPosition-finalPosition
+            updateWorkMode(receivedMode);
+
+            if (parts.size() >= 2) {
+                updateCurrentPosition(parseInteger(parts.get(1)));
             }
+
+            if (parts.size() >= 3) {
+                updateFinalPosition(parseInteger(parts.get(2)));
+            }
+
         } else {
-            posNow = -1;
-        }
+            // Format: currentPosition
+            // Format: currentPosition-finalPosition
+            updateCurrentPosition(parseInteger(parts.get(0)));
 
-        if(parts.size() >= 3){
-            try {
-                finalPos = Integer.parseInt(parts.get(2));
-            } catch (Exception e) {
-                finalPos = -1;
+            if (parts.size() >= 2) {
+                updateFinalPosition(parseInteger(parts.get(1)));
             }
-        } else {
-            finalPos = -1;
-        }
-
-        if(job != null){
-            if(job != State.workMode){
-                if(State.dbsInactive){
-                    State.workMode = job;
-                } else {
-                    State.sendConfirmHtml = true;
-                    this.addHandshake(HandshakeState.STATE);
-                }
-            }
-            State.workModeWCS = job;
-        }
-        if(posNow != -1){
-            State.valveCurrentPercentage = posNow;
-        }
-        if(finalPos != -1){
-            if(finalPos != State.valveOpenPercentage){
-                if(State.dbsInactive){
-                    State.valveOpenPercentage = finalPos;
-                } else {
-                    this.addHandshake(HandshakeState.VALVE);
-                    State.sendConfirmHtml = true;
-                }
-            }
-            State.valveOpenPercentageWCS = finalPos;
         }
     }
 
+    private int parseInteger(String value) {
+        try {
+            return Integer.parseInt(value.trim());
+        } catch (NumberFormatException e) {
+            return -1;
+        }
+    }
+
+    private void updateWorkMode(WorkMode receivedMode) {
+        if (receivedMode == State.workMode) {
+            State.workModeWCS = receivedMode;
+            return;
+        }
+
+        if (State.dbsInactive) {
+            State.workMode = receivedMode;
+        } else {
+            State.sendConfirmHtml = true;
+            this.addHandshake(HandshakeState.STATE);
+        }
+
+        State.workModeWCS = receivedMode;
+    }
+
+    private void updateCurrentPosition(int currentPosition) {
+        if (currentPosition >= 0 && currentPosition <= 100) {
+            State.valveCurrentPercentage = currentPosition;
+        }
+    }
+
+    private void updateFinalPosition(int finalPosition) {
+        if (finalPosition < 0 || finalPosition > 100) {
+            return;
+        }
+
+        if (finalPosition != State.valveOpenPercentage) {
+            if (State.dbsInactive) {
+                State.valveOpenPercentage = finalPosition;
+            } else {
+                this.addHandshake(HandshakeState.VALVE);
+                State.sendConfirmHtml = true;
+            }
+        }
+
+        State.valveOpenPercentageWCS = finalPosition;
+    }
 }
